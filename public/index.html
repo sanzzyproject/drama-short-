@@ -2,69 +2,90 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DramaFlix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DramaFlix - Nonton Drama China</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">DRAMAFLIX</div>
+    <div id="loader" class="loader-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-input-wrapper">
+            <div style="display:flex; align-items:center; color:#fff; font-size:1.2rem;" onclick="toggleSearch()">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <input type="text" id="search-input" placeholder="Cari judul, genre..." onkeyup="handleSearch(event)">
+        </div>
+        <div id="search-results" class="ep-grid" style="grid-template-columns: repeat(3, 1fr);"></div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="logo">N</div>
         <div class="search-icon" onclick="toggleSearch()">
             <i class="fas fa-search"></i>
         </div>
     </nav>
 
-    <div id="search-overlay" class="search-overlay hidden">
-        <div class="search-header">
-            <input type="text" id="search-input" placeholder="Cari judul drama..." onkeyup="handleSearch(event)">
-            <span class="close-search" onclick="toggleSearch()">✕</span>
+    <div id="home-view">
+        <div id="hero-section" class="hero">
+            <div class="hero-content">
+                <h1 id="hero-title" class="hero-title">Loading...</h1>
+                <div class="hero-buttons">
+                    <button class="btn-list"><i class="fas fa-plus"></i>My List</button>
+                    <button class="btn-play" id="hero-play-btn"><i class="fas fa-play"></i> Putar</button>
+                    <button class="btn-info"><i class="fas fa-info-circle"></i>Info</button>
+                </div>
+            </div>
         </div>
-        <div id="search-results" class="grid-container"></div>
+
+        <h3 class="section-title">Lagi Trending Sekarang</h3>
+        <div id="trending-row" class="row-container"></div>
+
+        <h3 class="section-title">Drama Baru Ditambahkan</h3>
+        <div id="latest-row" class="row-container"></div>
+        
+        <div style="height: 50px;"></div> </div>
+
+    <div id="player-view" class="hidden">
+        <div class="video-wrapper">
+            <div style="position: absolute; top: 15px; left: 15px; z-index: 60; color: white; text-shadow: 0 0 5px black;" onclick="closePlayer()">
+                <i class="fas fa-chevron-down" style="font-size: 1.5rem;"></i>
+            </div>
+            <video id="main-player" controls playsinline controlsList="nodownload" poster="">
+                Browser tidak mendukung.
+            </video>
+        </div>
+
+        <div class="info-container">
+            <h2 id="p-title" class="info-title">Judul Drama</h2>
+            <div class="info-meta">
+                <span>98% Cocok</span> &nbsp;|&nbsp; <span id="p-eps-count">0 Eps</span>
+            </div>
+            <p id="p-desc" class="info-desc">Deskripsi...</p>
+            
+            <div class="episodes-header">Episode</div>
+            <div id="episode-grid" class="ep-grid">
+                </div>
+        </div>
     </div>
 
-    <div id="app" class="main-content">
-        <div id="loader" class="loader-container">
-            <div class="netflix-loader"></div>
-        </div>
-
-        <div id="home-view">
-            <div id="hero-section" class="hero">
-                </div>
-
-            <h3 class="section-title">Sedang Tren</h3>
-            <div id="trending-row" class="row-container"></div>
-
-            <h3 class="section-title">Terbaru Ditambahkan</h3>
-            <div id="latest-row" class="row-container"></div>
-        </div>
-
-        <div id="player-view" class="hidden">
-            <div class="back-nav" onclick="goHome()">
-                <i class="fas fa-arrow-left"></i> Kembali
-            </div>
-            
-            <div class="video-container">
-                <video id="main-player" controls controlsList="nodownload" oncontextmenu="return false;">
-                    Browser Anda tidak mendukung tag video.
-                </video>
-                <div class="watermark">DRAMAFLIX</div>
-            </div>
-
-            <div class="drama-info">
-                <h2 id="p-title">Judul Drama</h2>
-                <p id="p-desc">Deskripsi...</p>
-                <div class="stats">
-                    <span id="p-eps">0 Episodes</span>
-                </div>
-            </div>
-
-            <div class="episode-list-container">
-                <h3>Episode</h3>
-                <div id="episode-grid" class="episode-grid"></div>
-            </div>
-        </div>
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="goHome()">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item">
+            <i class="fas fa-play-circle"></i>
+            <span>New & Hot</span>
+        </button>
+        <button class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>My Netflix</span>
+        </button>
     </div>
 
     <script src="script.js"></script>
