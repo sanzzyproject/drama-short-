@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DramaFlix</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">DRAMAFLIX</div>
+        <div class="search-icon" onclick="toggleSearch()">
+            <i class="fas fa-search"></i>
+        </div>
+    </nav>
+
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-header">
+            <input type="text" id="search-input" placeholder="Cari judul drama..." onkeyup="handleSearch(event)">
+            <span class="close-search" onclick="toggleSearch()">✕</span>
+        </div>
+        <div id="search-results" class="grid-container"></div>
+    </div>
+
+    <div id="app" class="main-content">
+        <div id="loader" class="loader-container">
+            <div class="netflix-loader"></div>
+        </div>
+
+        <div id="home-view">
+            <div id="hero-section" class="hero">
+                </div>
+
+            <h3 class="section-title">Sedang Tren</h3>
+            <div id="trending-row" class="row-container"></div>
+
+            <h3 class="section-title">Terbaru Ditambahkan</h3>
+            <div id="latest-row" class="row-container"></div>
+        </div>
+
+        <div id="player-view" class="hidden">
+            <div class="back-nav" onclick="goHome()">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </div>
+            
+            <div class="video-container">
+                <video id="main-player" controls controlsList="nodownload" oncontextmenu="return false;">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+                <div class="watermark">DRAMAFLIX</div>
+            </div>
+
+            <div class="drama-info">
+                <h2 id="p-title">Judul Drama</h2>
+                <p id="p-desc">Deskripsi...</p>
+                <div class="stats">
+                    <span id="p-eps">0 Episodes</span>
+                </div>
+            </div>
+
+            <div class="episode-list-container">
+                <h3>Episode</h3>
+                <div id="episode-grid" class="episode-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
