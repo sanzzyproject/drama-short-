@@ -1,9 +1,10 @@
 :root {
     --bg-color: #000000;
     --card-bg: #141414;
-    --primary: #e50914;
+    --primary: #E50914; /* Netflix Red */
     --text: #ffffff;
     --text-sec: #b3b3b3;
+    --bottom-nav-height: 60px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -11,155 +12,229 @@
 body {
     background-color: var(--bg-color);
     color: var(--text);
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     overflow-x: hidden;
+    padding-bottom: var(--bottom-nav-height); /* Space for bottom nav */
 }
 
-/* Navbar */
+/* --- HEADER & NAV --- */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 60px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 15px;
     z-index: 100;
+    transition: background 0.3s;
 }
 
-.logo { color: var(--primary); font-weight: bold; font-size: 1.5rem; letter-spacing: 1px; }
-.search-icon { font-size: 1.2rem; cursor: pointer; }
+.logo { 
+    color: var(--primary); 
+    font-weight: 900; 
+    font-size: 1.5rem; 
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    letter-spacing: 0.5px;
+}
+.search-icon { font-size: 1.2rem; cursor: pointer; padding: 10px; }
 
-/* Hero Section */
+/* --- HERO SECTION --- */
 .hero {
-    height: 70vh;
+    height: 65vh;
     position: relative;
     background-size: cover;
     background-position: center;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
 .hero::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, #000 0%, transparent 60%);
+    background: linear-gradient(to top, #000 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
 }
+
 .hero-content {
     position: relative;
     z-index: 2;
-    padding: 20px;
+    padding: 0 20px 20px;
     width: 100%;
     text-align: center;
 }
-.hero-title { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
-.btn-play {
-    background: var(--text);
-    color: #000;
+
+.hero-title { 
+    font-size: 2.5rem; 
+    margin-bottom: 15px; 
+    font-weight: 800; 
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Tombol ala Netflix */
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+.btn-list, .btn-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-size: 0.7rem;
+    gap: 5px;
+    background: transparent;
     border: none;
-    padding: 10px 25px;
+    cursor: pointer;
+}
+.btn-list i, .btn-info i { font-size: 1.2rem; }
+
+.btn-play {
+    background: white;
+    color: black;
+    border: none;
+    padding: 8px 24px;
     border-radius: 4px;
     font-weight: bold;
     font-size: 1rem;
-    cursor: pointer;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
 }
 
-/* Rows (Horizontal Scroll) */
-.section-title { margin: 20px 0 10px 20px; font-size: 1.1rem; font-weight: 600; }
+/* --- ROWS SCROLL --- */
+.section-title { 
+    margin: 25px 0 10px 15px; 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    color: #e5e5e5;
+}
 .row-container {
     display: flex;
     overflow-x: auto;
-    padding: 0 20px 20px;
-    gap: 10px;
-    scrollbar-width: none; /* Firefox */
+    padding: 0 15px 10px;
+    gap: 8px;
+    scrollbar-width: none;
 }
-.row-container::-webkit-scrollbar { display: none; } /* Chrome */
+.row-container::-webkit-scrollbar { display: none; }
 
 .card {
-    flex: 0 0 110px;
+    flex: 0 0 105px;
+    position: relative;
     cursor: pointer;
-    transition: transform 0.2s;
 }
 .card img {
     width: 100%;
-    height: 160px;
+    height: 155px;
     object-fit: cover;
     border-radius: 4px;
+    background: #222; /* Placeholder color */
 }
-.card:active { transform: scale(0.95); }
+/* Nomor ranking untuk trending */
+.rank-number {
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #000;
+    -webkit-text-stroke: 2px #595959;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    line-height: 0.8;
+    z-index: 2;
+}
 
-/* Search Overlay */
-.search-overlay {
-    position: fixed;
-    inset: 0;
+/* --- PLAYER VIEW --- */
+#player-view { background: #000; min-height: 100vh; position: relative; z-index: 200;}
+.video-wrapper {
+    position: sticky;
+    top: 0;
+    width: 100%;
     background: #000;
-    z-index: 200;
-    padding: 20px;
-    overflow-y: auto;
+    z-index: 50;
 }
-.hidden { display: none !important; }
-.search-header { display: flex; gap: 10px; margin-bottom: 20px; }
-#search-input {
-    flex: 1;
-    background: #333;
-    border: none;
-    padding: 12px;
-    color: white;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-.close-search { font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; }
+video { width: 100%; aspect-ratio: 16/9; display: block; }
 
-.grid-container {
+.info-container { padding: 15px; }
+.info-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+.info-meta { color: #46d369; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; }
+.info-desc { color: var(--text-sec); font-size: 0.9rem; line-height: 1.4; margin-bottom: 20px;}
+
+/* Episode Grid Selector */
+.episodes-header { font-weight: 700; margin-bottom: 15px; border-top: 1px solid #333; padding-top: 15px; }
+.ep-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
     gap: 10px;
-}
-
-/* Player View */
-#player-view { padding-top: 20px; min-height: 100vh; background: #000; }
-.back-nav { padding: 10px 20px; color: var(--text-sec); cursor: pointer; display: flex; align-items: center; gap: 8px;}
-.video-container { position: relative; width: 100%; background: #000; aspect-ratio: 16/9; }
-video { width: 100%; height: 100%; outline: none; }
-
-/* Proteksi Video CSS */
-video::-webkit-media-controls-enclosure { overflow: hidden; }
-video::-webkit-media-controls-panel { width: calc(100% + 30px); }
-
-.drama-info { padding: 20px; }
-.drama-info h2 { font-size: 1.5rem; margin-bottom: 10px; }
-.drama-info p { color: var(--text-sec); font-size: 0.9rem; line-height: 1.4; margin-bottom: 10px; }
-.episode-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    gap: 10px;
-    padding: 0 20px 50px;
+    padding-bottom: 30px;
 }
 .ep-btn {
-    background: #333;
-    color: white;
+    background: #262626;
+    color: #fff;
     border: none;
-    padding: 12px 0;
     border-radius: 4px;
+    padding: 12px 0;
+    font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
 }
-.ep-btn.active { background: var(--primary); }
+.ep-btn.active {
+    background: #46d369; /* Netflix Green untuk 'Current' */
+    color: black;
+}
 
-/* Loader */
-.loader-container {
-    position: fixed; inset: 0; background: #000; z-index: 50;
+/* --- BOTTOM NAV (Mobile Only) --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: var(--bottom-nav-height);
+    background: #121212;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #333;
+    z-index: 150;
+}
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #555;
+    font-size: 0.6rem;
+    gap: 4px;
+    text-decoration: none;
+    background: none;
+    border: none;
+}
+.nav-item i { font-size: 1.2rem; }
+.nav-item.active { color: white; }
+
+/* --- SEARCH & LOADER --- */
+.search-overlay {
+    position: fixed; inset: 0; background: #000; z-index: 300; padding: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+.hidden { display: none !important; }
+.search-input-wrapper { display: flex; gap: 10px; margin-bottom: 20px; }
+#search-input {
+    flex: 1; background: #333; border: none; padding: 10px 15px;
+    color: white; font-size: 1rem; border-radius: 4px;
+}
+.loader-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 999;
     display: flex; justify-content: center; align-items: center;
 }
-.netflix-loader {
-    width: 40px; height: 40px;
-    border: 3px solid rgba(229, 9, 20, 0.3);
-    border-radius: 50%;
-    border-top-color: var(--primary);
-    animation: spin 1s linear infinite;
+.spinner {
+    width: 40px; height: 40px; border: 4px solid rgba(229,9,20,0.3);
+    border-top-color: var(--primary); border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
-@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spin { to { transform: rotate(360deg); } }
